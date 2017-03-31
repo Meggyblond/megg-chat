@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="spjall.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+    <div id="main">
+        <div id="main1">
+            <ul class="me" id="messages"></ul>
+        </div>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <div id="box" class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><center>Welcome<br>Please login</center></h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="username">
+                        <input type="password" id="password">
+                        <button id="login" data-toggle="modal">Login</button>
+                    </div>
+                    <div class="modal-footer">
+                        <div id="alert">
+                            <p>
+                                <center>Wrong username or password!</center>
+                            </p>
+                        </div>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div id="loggedin">
+            <textarea id="mvalue" readonly></textarea>
+            <div id="emoji">
+                <button id="donut">🍩</button>
+                <button id="monkey">🙈</button>
+                <button id="cheers">🍻</button>
+                <button id="love">😍</button>
+                <button id="soccer">⚽</button>
+                <button id="col">😂</button>
+            </div>
+            <div id=usersD>
+                <ul id="users"></ul>
+            </div>
+            <input id="m">
+            <button id="mb">Send</button>
+        </div>
+
+
+        <div id="prelog">
+            <img src="./images.jpeg" id="chat1">
+            <button id="loggi" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                <h3>Login</h3>
+                <p>Please login to chat</p>
+            </button>
+            <img src="./images.jpeg" id="chat">
+        </div>
+    </div>
+    <div id="kicked">
+        <h1>YOU'VE BEEN KICKED NOOB!</h1>
+        <h2>YOU'VE BEEN KICKED NOOB!</h2>
+        <h3>YOU'VE BEEN KICKED NOOB!</h3>
+        <h4>YOU'VE BEEN KICKED NOOB!</h4>
+        <h5>YOU'VE BEEN KICKED NOOB!</h5>
+        <h6>YOU'VE BEEN KICKED NOOB!</h6>
+        <h1>YOU'VE BEEN KICKED NOOB!</h1>
+        <h2>YOU'VE BEEN KICKED NOOB!</h2>
+        <h3>YOU'VE BEEN KICKED NOOB!</h3>
+        <h4>YOU'VE BEEN KICKED NOOB!</h4>
+        <h5>YOU'VE BEEN KICKED NOOB!</h5>
+        <h6>YOU'VE BEEN KICKED NOOB!</h6>
+        <h1>YOU'VE BEEN KICKED NOOB!</h1>
+        <h2>YOU'VE BEEN KICKED NOOB!</h2>
+        <h3>YOU'VE BEEN KICKED NOOB!</h3>
+        <h4>YOU'VE BEEN KICKED NOOB!</h4>
+        <h5>YOU'VE BEEN KICKED NOOB!</h5>
+        <h6>YOU'VE BEEN KICKED NOOB!</h6>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script type="text/javascript">
+        var socket = io(); // gerum socket, við(clientinn) erum socketið, serverinn er io-ið
+        var s;
+        var check = true;
+        $("#loggedin").hide();
+        $("#alert").hide();
+        $("#login").click(function () {
+
+            var nickName = $('#username').val();
+            if (nickName != null) {
+                socket.emit("check", nickName, password);
+            } else {
+                alert("You have to choose a nickname!");
+            }
+
+            var password = $('#password').val();
+            if (password != null) {
+                socket.emit('check', nickName, password);
+            } else {
+               alert("You have to type a password");
+            }
+            socket.on("switch", function () {
+                $("#prelog").hide();
+                $("#loggedin").show();
+                jQuery.noConflict();
+                $("#myModal").modal("hide");
+            });
+            socket.on("false", function () {
+                $('#alert').slideDown(800);
+            });
+        });
+
+        $('#mb').click(function () {
+            var msg = $('#m').val();
+            if (msg === "brb") {
+                msg = "Be Right Back!";
+                socket.emit('chatMsg', msg);
+                $('#m').val('');
+            } else if (msg === "omw") {
+                msg = "On My Way!";
+                socket.emit('chatMsg', msg);
+                $('#m').val('');
+            } else if (msg === "lol") {
+                msg = "Laughing Out Loud!";
+                socket.emit('chatMsg', msg);
+                $('#m').val('');
+            } else if (msg === "lit") {
+                msg = "🔥";
+                socket.emit('chatMsg', msg);
+                $('#m').val('');
+            } else if (msg === "danni") {
+                alert("Fuck, you've been kicked!");
+                $('#loggedin').hide();
+                $('#main1').hide();
+                $('#kicked').show();
+                socket.emit('forceDisconnect');
+                $('#m').val('');
+            } else if (msg === "/info") {
+                socket.emit('info');
+            } else if (msg === "/nick") {
+                var newNick = prompt("please pick a new nick!");
+                socket.emit("nickk", newNick);
+            } else
+                socket.emit('chatMsg', msg); // sendum skilaboðin msg til serversins
+            $('#m').val(''); //hreinsum textaboxið
+        });
+        $('#m').keypress(function (e) {
+            if (e.which == 13) {
+                var msg = $('#m').val();
+                if (msg === "brb") {
+                    msg = "Be Right Back!";
+                    socket.emit('chatMsg', msg);
+                    $('#m').val('');
+                } else if (msg === "omw") {
+                    msg = "On My Way!";
+                    socket.emit('chatMsg', msg);
+                    $('#m').val('');
+                } else if (msg === "lol") {
+                    msg = "Laughing Out Loud!";
+                    socket.emit('chatMsg', msg);
+                    $('#m').val('');
+                } else if (msg === "lit") {
+                    msg = "🔥";
+                    socket.emit('chatMsg', msg);
+                    $('#m').val('');
+                } else if (msg === "danni") {
+                    alert("Fuck, you've been kicked!");
+                    $('#loggedin').hide();
+                    $('#main1').hide();
+                    $('#kicked').show();
+                    socket.emit('forceDisconnect');
+                    $('#m').val('');
+                } else if (msg === "/info") {
+                    socket.emit('info');
+                } else if (msg === "/nick") {
+                    var newNick = prompt("please pick a new nick!");
+                    socket.emit("nickk", newNick);
+                } else
+                    socket.emit('chatMsg', msg); // sendum skilaboðin msg til serversins
+                $('#m').val(''); //hreinsum textaboxið
+                socket.emit('clearBox');
+
+            }
+        });
+        
+        socket.on('clearBox', function(){
+            $('#mvalue').empty();
+        });
+        
+        $('#donut').click(function () {
+            var msg = $('#m');
+            msg.val(msg.val() + '🍩');
+        });
+        $('#monkey').click(function () {
+            var msg = $('#m');
+            msg.val(msg.val() + '🙈');
+        });
+        $('#cheers').click(function () {
+            var msg = $('#m');
+            msg.val(msg.val() + '🍻');
+        });
+        $('#love').click(function () {
+            var msg = $('#m');
+            msg.val(msg.val() + '😍');
+        });
+        $('#soccer').click(function () {
+            var msg = $('#m');
+            msg.val(msg.val() + '⚽');
+        });
+        $('#col').click(function () {
+            var msg = $('#m');
+            msg.val(msg.val() + '😂');
+        });
+
+
+        function showUsers(us) {
+            $('#users').empty();
+            for (var i = 0; i < us.length; i++) {
+                $('#users').append('<li>' + us[i] + '</li>');
+
+            }
+        }
+
+        $('#m').on('keyup', function (e) {
+            if(e.keyCode !== 13){
+            var msg = $('#m').val();
+            var read = $('#mvalue').val += msg;
+            socket.emit("getText", msg);}
+            
+        });
+
+        function scrollToBottom() {
+            $('#messages').scrollTop($('#messages')[0].scrollHeight);
+            console.log("boom");
+        };
+
+        function updateChat(cl) {
+            $('#messages').empty();
+            for (var i = 0; i < cl.length; i++) {
+                $('#messages').append('<li>' + cl[i] + '</li>');
+
+            }
+            scrollToBottom();
+
+
+        }
+
+        socket.on("getText", function (s, b, msg) {
+            $('#mvalue').empty();
+            $('#mvalue').append(s + b + msg);
+        });
+
+        socket.on('chatMsg', function (log) {
+            updateChat(log);
+        });
+        socket.on('nick', function (nicks) {
+            showUsers(nicks);
+        });
+    </script>
+
+</body>
+
+</html>

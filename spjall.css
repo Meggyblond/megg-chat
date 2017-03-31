@@ -1,0 +1,136 @@
+body {
+    margin: 0 auto;
+    width: 960px;
+    background-color: white;
+}
+
+#prelog {
+    position: absolute;
+    height: 170px;
+    width: 960px;
+    top: 400px;
+    background-color: black;
+}
+#messages{
+    font-weight: bold;
+    width: 960px;
+    list-style-type: none;
+    position: absolute;
+    right: 20px;
+    overflow: auto;
+    height: 690px;
+
+}
+#messages li:nth-child(odd){
+    background-color: white;
+    color: black;
+}
+#loggi {
+    height: 170px;
+    width: 220px;
+    position: absolute;
+    left: 380px;
+}
+
+#chat {
+    height: 170px;
+    width: 220px;
+    position: absolute;
+    left: 730px;
+}
+
+#chat1 {
+    height: 170px;
+    width: 220px;
+    position: absolute;
+    left: 10px;
+}
+
+#main {
+    background-color: whitesmoke;
+    position: absolute;
+    width: 960px;
+}
+#main1{
+    height: 690px;
+    overflow: auto;
+}
+
+#usersD {
+    width: 200px;
+    background-color: white;
+    color: black;
+    font-weight: bolder;
+    position: absolute;
+    left: 960px;
+    top: 0px;
+    list-style-image: url(user.jpeg);
+}
+
+#m {
+    position: absolute;
+    top: 762px;
+    width: 904px;
+    height: 30px;
+}
+
+#mb {
+    position: absolute;
+    top: 764px;
+    left: 908px;
+}
+
+#mvalue {
+    background-color: bisque;
+    position: absolute;
+    top: 700px;
+    height: 35px;
+    width: 960px;
+    resize: none;
+    
+}
+
+.modal-body {
+    background-color: white;
+}
+
+.modal-header {
+    background-color: white;
+    color: burlywood;
+}
+
+.modal-footer {
+    background-color: blanchedalmond;
+}
+#chill{
+    color: red;
+    font-weight: bolder;
+}
+#brill {
+    color: green;
+    font-weight: bolder;
+}
+#srill{
+    color: fuchsia;
+     font-weight: bolder;
+
+}
+#grill {
+    color: teal;
+}
+
+#emoji{
+    position: absolute;
+    top: 737px;
+    left: 400px;
+
+}
+#kicked{
+    background-color: red;
+    color: black;
+}
+#alert{
+    color: red;
+    font-size: 15px;
+    font-weight: bolder;
+}
