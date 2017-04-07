@@ -4,15 +4,13 @@
   "description": "",
   "main": "spjall11.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "scripts": {
     "start": "node spjall11.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2",
+    "jquery": "^3.2.1",
     "socket.io": "^1.7.3"
   }
 }
