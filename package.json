@@ -1,6 +1,7 @@
 {
   "name": "chat",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "spjall11.js",
   "scripts": {
@@ -8,6 +9,10 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+  "type": "git",
+  "url": "git://github.com/username/repository.git"
+  }, 
   "dependencies": {
     "express": "^4.15.2",
     "jquery": "^3.2.1",
